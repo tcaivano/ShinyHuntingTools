@@ -23,7 +23,7 @@ arduino = serial.Serial(port=shinyHuntUtils.findArduinoCOM(), baudrate=345600, t
 alg = sys.argv[1]
 commandItems, delays = shinyHuntUtils.readAndParseCommands(alg)
 alg2 = sys.argv[2]
-commandItems2, delays2 = shinyHuntUtils.readAndParseCommands(alg)
+commandItems2, delays2 = shinyHuntUtils.readAndParseCommands(alg2)
 
 attempts = int(sys.argv[3])
 form = app.window(title_re='mGBA - ')
@@ -37,6 +37,7 @@ pos2, z = shinyHuntUtils.capturePosition("bottom right")
 # capture third coord to anchor
 pos3, initialPixels3 = shinyHuntUtils.capturePosition("anchor")
 
+shinyHuntUtils.printCurrentProgress(attempts)
 form.send_keystrokes("]")
 time.sleep(0.75)
 
@@ -100,5 +101,5 @@ while(1):
 
     shinyHuntUtils.printCurrentProgress(attempts)
 
-shinyHuntUtils.sendSuccessMessage()
+shinyHuntUtils.sendSuccessMessage(attempts)
 shinyHuntUtils.printCurrentTime()

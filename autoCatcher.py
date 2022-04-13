@@ -2,7 +2,7 @@ import pywinauto, pyautogui
 import sys, time, serial, signal
 import shinyHuntUtils
 
-attempts: int
+attempts: int = 0
 
 def interruptHandler(sig, frame):
     print("\nStopped after {0} resets".format(attempts))
@@ -13,15 +13,6 @@ shinyHuntUtils.printCurrentTime()
 
 # connect to mGBA
 app = pywinauto.application.Application().connect(best_match='mGBA - ', top_level_only=False, visible_only=False)
-
-# connect to arduino
-arduino = serial.Serial(port=shinyHuntUtils.findArduinoCOM(), baudrate=345600, timeout=.1)
-
-# open record file and parse commands
-alg = sys.argv[1]
-commandItems, delays = shinyHuntUtils.readAndParseCommands(alg)
-
-attempts = int(sys.argv[2])
 form = app.window(title_re='mGBA - ')
 
 # capture first set of pixels to test
@@ -31,21 +22,23 @@ pos, initialPixels = shinyHuntUtils.capturePosition("sprite")
 pos2, initialPixels2 = shinyHuntUtils.capturePosition("anchor")
 
 shinyHuntUtils.printCurrentProgress(attempts)
-form.send_keystrokes("]")
-time.sleep(0.75)
+form.send_keystrokes("{VK_F5}")
 
 while(1):
     attempts = attempts + 1
-    shinyHuntUtils.writeCommands(arduino, commandItems, delays)
+    form.send_keystrokes("xxxxxxx")
+    time.sleep(0.1)
+    form.send_keystrokes("xxxxxxx")
+    time.sleep(1.0)
 
-    # check if we have a shiny or if we're anchored
+    # check if we have a catch
     pixels = pyautogui.screenshot().load()
     if ((pixels[pos[0], pos[1]] != initialPixels[pos[0], pos[1]]) and (pixels[pos2[0], pos2[1]] == initialPixels2[pos2[0], pos2[1]])):
         break
-    form.send_keystrokes("]")
+    form.send_keystrokes("{VK_F5}")
     time.sleep(0.75)
     
     shinyHuntUtils.printCurrentProgress(attempts)
     
-shinyHuntUtils.sendSuccessMessage(attempts)
+print("Done")
 shinyHuntUtils.printCurrentTime()
