@@ -141,3 +141,7 @@ constants.py
 
 # misc libs
 controller/Arduino*
+
+# old files that I'm too lazy to delete
+hunt.py
+huntdesu.py
