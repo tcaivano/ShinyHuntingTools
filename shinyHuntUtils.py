@@ -1,11 +1,8 @@
-import string
-from tokenize import Number
-from pyscreeze import pixel
+import string, serial, sys, time
 import pyautogui
-import sys
-import time
 from datetime import datetime
 from twilio.rest import Client
+import serial.tools.list_ports
 import constants
 
 def convertKeyToSerialCommand(key):
@@ -74,7 +71,7 @@ def writeCommands(arduino, commandItems, delays):
         time.sleep(float(delays[x]))
 
 def printCurrentProgress(attempts: int):
-    sys.stdout.write("Attempt %s, %s%% chance of success...\r" % (attempts, (1 -(1023/1024)**attempts) * 100))
+    sys.stdout.write("Attempt %s, %s%% chance of success...\r" % (attempts, round((1 -(1023/1024)**attempts) * 100, 2)))
     sys.stdout.flush()
 
 def sendSuccessMessage(attempts: int):
@@ -84,3 +81,9 @@ def sendSuccessMessage(attempts: int):
         from_= constants.fromPhone,
         body="Shiny Hunt complete after {0} resets".format(attempts))
     print("\nComplete after {0} resets".format(attempts))
+
+def findArduinoCOM():    
+    ports = serial.tools.list_ports.comports(include_links=False)
+    for port, desc, hwid in sorted(ports):
+        if "Arduino" in desc:
+            return port

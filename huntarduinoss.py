@@ -16,7 +16,7 @@ shinyHuntUtils.printCurrentTime()
 app = pywinauto.application.Application().connect(best_match='mGBA - ', top_level_only=False, visible_only=False)
 
 # connect to arduino
-arduino = serial.Serial(port='COM10', baudrate=345600, timeout=.1)
+arduino = serial.Serial(port=shinyHuntUtils.findArduinoCOM(), baudrate=345600, timeout=.1)
 
 # open record file and parse commands
 
