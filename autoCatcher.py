@@ -31,7 +31,7 @@ while(1):
     form.send_keystrokes("xxxxxxx")
     time.sleep(1.0)
 
-    # check if we have a catch
+    # check if we have a catch by checking if our pixel has changed
     pixels = pyautogui.screenshot().load()
     if ((pixels[pos[0], pos[1]] != initialPixels[pos[0], pos[1]]) and (pixels[pos2[0], pos2[1]] == initialPixels2[pos2[0], pos2[1]])):
         break

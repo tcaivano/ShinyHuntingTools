@@ -59,11 +59,11 @@ while(1):
     for x in range(0, 15):
         screenshots.append(pyautogui.screenshot(region=r))
     
-    #scrub through each screenshot
+    # scrub through each screenshot
     z = 0
     for s in screenshots:
         pixels = s.load()
-        s.save("logs\screenshot" + str(z) + ".png") #test only, remove later plz
+        s.save("logs\screenshot" + str(z) + ".png") # save screenshots for logging purposes
         z = z + 1
         for x in range (0, w):
             for y in range (0, h):
@@ -81,9 +81,12 @@ while(1):
     else:
         reset = False
     
+    # run from the fight and try again
     if reset == False:
+        # weather - todo add if
         # time.sleep(0.5)
         # shinyHuntUtils.writeToDeviceAndSleep(arduino, "a", 0.5)
+
         shinyHuntUtils.writeToDeviceAndSleep(arduino, "a", 0.25)
         shinyHuntUtils.writeToDeviceAndSleep(arduino, "down", 0.25)
         shinyHuntUtils.writeToDeviceAndSleep(arduino, "down", 0.25)
@@ -91,6 +94,7 @@ while(1):
         shinyHuntUtils.writeToDeviceAndSleep(arduino, "a", 0.5)
         shinyHuntUtils.writeToDeviceAndSleep(arduino, "a", 1.5)
         
+        # check to see if we were blocked from running
         screenshot = pyautogui.screenshot()
         pixels = screenshot.load()
         if ((pixels[pos3[0], pos3[1]] == initialPixels3[pos3[0], pos3[1]])):

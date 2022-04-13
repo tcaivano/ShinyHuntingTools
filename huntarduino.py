@@ -38,7 +38,7 @@ while(1):
     attempts = attempts + 1
     shinyHuntUtils.writeCommands(arduino, commandItems, delays)
 
-    # check if we have a shiny or if we're anchored
+    # check if we have a shiny or if we're unanchored
     pixels = pyautogui.screenshot().load()
     if ((pixels[pos[0], pos[1]] != initialPixels[pos[0], pos[1]]) and (pixels[pos2[0], pos2[1]] == initialPixels2[pos2[0], pos2[1]])):
         break
