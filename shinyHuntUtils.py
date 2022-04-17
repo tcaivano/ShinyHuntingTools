@@ -149,3 +149,9 @@ def findArduinoCOM():
     for port, desc, hwid in sorted(ports):
         if "Arduino" in desc:
             return port
+
+
+def isEncounterDetected(pixels):
+    if (pixels[0,0] == (0,0,0)):
+        return True
+    return False

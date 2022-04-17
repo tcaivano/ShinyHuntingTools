@@ -37,7 +37,6 @@ pos2, _ = shinyHuntUtils.capturePosition("bottom right")
 # capture third coord to anchor
 pos3, initialPixels3 = shinyHuntUtils.capturePosition("anchor")
 
-shinyHuntUtils.printCurrentProgress(attempts)
 form.send_keystrokes("]")
 time.sleep(0.75)
 
@@ -48,6 +47,7 @@ h = pos2[1]-pos[1]
 r = (pos[0], pos[1], w, h)
 while(1):
     time.sleep(0.75)
+    shinyHuntUtils.printCurrentProgress(attempts)
     attempts = attempts + 1
     if reset == True:
         shinyHuntUtils.writeCommands(arduino, commandItems, delays)
@@ -102,8 +102,6 @@ while(1):
             reset = True
         else:
             reset = False
-
-    shinyHuntUtils.printCurrentProgress(attempts)
 
 shinyHuntUtils.sendSuccessMessage(attempts)
 shinyHuntUtils.printCurrentTime()
